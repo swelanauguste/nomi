@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block content %}
+<h2 class="fs-1 bg-dark text-white text-center px-5 py-3">Your Accounts</h2>
+<div class="container">
+
+  <div class="d-grid d-md-block text-end">
+    <a class="btn btn-outline-dark mb-2 mb-lg-0"
+      href="{% url 'add_account' %}">Add New Account</a>
+    <a class="btn btn-outline-dark"
+      href="{% url 'transfer' %}">Transfer</a>
+  </div>
+  <br>
+  <div class="text-end">
+    <p class="display-1 fw-bold">${{total_balance|floatformat:2|intcomma}} </p>
+    {% for account in accounts %}
+    <span class="fs-1">
+      {{ account.name }} - ${{ account.balance|intcomma }}</span><br>
+    {% endfor %}
+  </div>
+</div><br><br>
+{% endblock %}

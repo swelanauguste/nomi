@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="fs-1 bg-dark text-white text-center px-5 py-3">Your Budgets</h2>
+<div class="container mt-3 mb-5 col-lg-3">
+  <div class="d-grid d-md-block text-end">
+    <a class="btn btn-outline-dark" href="{% url 'add_budget' %}">Add New Budget</a>
+  </div><br>
+  <ul>
+    {% for budget in budgets %}
+    <li>{{ budget.category.name }}: ${{ budget.amount }} 
+      ({{ budget.start_date }} to {{ budget.end_date }})</li>
+    {% endfor %}
+  </ul>
+</div><br><br>
+{% endblock %}

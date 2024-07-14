@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h2 class="fs-1 bg-dark text-white text-center px-5 py-3">Add Transaction</h2>
+<div class="container my-3 col-lg-3">
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    <div class="d-grid d-md-block text-end">
+      <button class="btn btn-outline-dark"
+        type="submit">Add Transaction</button>
+    </div>
+  </form>
+</div><br><br>
+<script type="text/javascript">
+  function openAddCategoryWindow() {
+    var win = window.open("{% url 'add_category' %}", "_blank", "width=600,height=400");
+    win.onunload = refreshCategories;
+  }
+
+  function refreshCategories() {
+    fetch("{% url 'get_categories' %}")
+      .then(response => response.json())
+      .then(data => {
+        const select = document.getElementById('id_category');
+        const selectedValue = select.value;
+        select.innerHTML = '';
+        data.categories.forEach(category => {
+          const option = document.createElement('option');
+          option.value = category.id;
+          option.textContent = category.name;
+          select.appendChild(option);
+        });
+        // Select the newly added category
+        if (data.new_category_id) {
+          select.value = data.new_category_id;
+        } else {
+          // Restore previous selection if new category ID is not available
+          select.value = selectedValue;
+        }
+      });
+  }
+
+</script>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h2 class="fs-1 bg-dark text-white text-center px-5 py-3">Your Transactions
+</h2>
+<div class="container mt-3 mb-5 col-lg-3">
+  <form method="get">
+    {{ form|crispy }}
+    <div class="d-grid d-md-block text-end">
+      <button class="btn btn-dark"
+        type="submit">Filter</button>
+    </div>
+  </form>
+  <hr>
+  {% for transaction in transactions %}
+  <div
+    class="fw-bold card rounded-4 mb-1 {% if transaction.transaction_type == 'income' %}  border-success {% else %} border-danger {% endif %}">
+    <div class="px-3">
+      {{ transaction.category.name }} -
+      {{ transaction.account.name }} -
+      ${{ transaction.amount }}
+    </div>
+  </div>
+  {% endfor %}
+</div><br><br>
+{% endblock %}
