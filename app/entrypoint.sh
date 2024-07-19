@@ -14,7 +14,7 @@
 # python manage.py migrate
 python manage.py makemigrations
 python manage.py migrate
-# python manage.py createsuperuser --username kingship --email kingship.lc@gmail.com --noinput
+python manage.py createsuperuser --username kingship --email kingship.lc@gmail.com --noinput
 # python manage.py loaddata  --exclude=auth.permission --exclude=contenttypes db3_5_2024.json
 # python manage.py collectstatic --noinput
 
