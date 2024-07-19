@@ -41,7 +41,7 @@
     <div class="row bg-dark py-2">
         <div class="col-1">
             <a href="/">
-                <img class="rounded-circle me-3"
+                <img class="rounded-circle mx-3"
                     width="70"
                     src="{% static 'img/naomi_numbers.jpg' %}"
                     alt="">
@@ -56,7 +56,15 @@
         </div>
     </div>
 
-
+    {% if request.user.is_authenticated %}
+    <div class="container mt-3">
+        <a href="javascript:history.back()">
+            <span class="fs-1 text-dark material-symbols-outlined">
+                arrow_back_ios
+            </span>
+        </a>
+    </div>
+    {% endif %}
 
     {% block content %}
     {% endblock %}

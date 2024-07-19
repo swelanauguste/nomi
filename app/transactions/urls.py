@@ -8,7 +8,7 @@ urlpatterns = [
     path("account/<int:account_id>/", views.account_detail, name="account_detail"),
     path("transactions/add/", views.add_transaction, name="add_transaction"),
     path("transactions/view/", views.view_transactions, name="view_transactions"),
-    path("budgets/", views.budget_list, name="budgets"),
+    path("budgets/", views.budget_list, name="budget_list"),
     path("budgets/add/", views.budget_create, name="add_budget"),
     path(
         "recurring_transactions/",

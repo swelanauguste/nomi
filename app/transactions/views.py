@@ -5,6 +5,7 @@ from operator import attrgetter
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.db import models
+from django.db import transaction as db_transaction
 from django.http import HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -28,47 +29,6 @@ from .models import (
     Transaction,
     Transfer,
 )
-
-
-@login_required
-def account_detail(request, account_id):
-    account = get_object_or_404(Account, id=account_id, user=request.user)
-
-    transactions = Transaction.objects.filter(account=account)
-    from_transfers = Transfer.objects.filter(from_account=account)
-    to_transfers = Transfer.objects.filter(to_account=account)
-
-    # Add a date attribute to all items for sorting
-    transactions = list(transactions)
-    for t in transactions:
-        t.date = t.created_at
-
-    from_transfers = list(from_transfers)
-    for ft in from_transfers:
-        ft.date = ft.created_at
-        ft.type = "from_transfer"
-
-    to_transfers = list(to_transfers)
-    for tt in to_transfers:
-        tt.date = tt.created_at
-        tt.type = "to_transfer"
-
-    # Combine and sort by date
-    combined_transactions = list(chain(transactions, from_transfers, to_transfers))
-    combined_transactions.sort(
-        key=lambda x: (
-            x.created_at
-            if isinstance(x.created_at, datetime.datetime)
-            else datetime.datetime.combine(x.created_at, datetime.time.min)
-        ),
-        reverse=True,
-    )
-
-    return render(
-        request,
-        "accounts/account_detail.html",
-        {"account": account, "transactions": combined_transactions},
-    )
 
 
 @login_required
@@ -113,7 +73,6 @@ def add_category(request):
     else:
         form = CategoryForm()
     return render(request, "transactions/add_category.html", {"form": form})
-
 
 @login_required
 def add_transfer(request):
@@ -189,6 +148,24 @@ def add_recurring_transaction(request):
         request, "transactions/add_recurring_transaction.html", {"form": form}
     )
 
+@db_transaction.atomic
+@login_required
+def add_transaction(request):
+    if request.method == "POST":
+        form = TransactionForm(request.POST, user=request.user)
+        if form.is_valid():
+            with db_transaction.atomic():
+                transaction = form.save(commit=False)
+                transaction.user = request.user
+                transaction.save()
+                return redirect(
+                    "account_detail", account_id=transaction.account.id
+                )  # Redirect to account detail view
+    # Change to your transaction list view name
+    else:
+        form = TransactionForm(user=request.user)
+    return render(request, "transactions/add_transaction.html", {"form": form})
+
 
 @login_required
 def view_transactions(request):
@@ -251,16 +228,40 @@ def add_account(request):
 
 
 @login_required
-def add_transaction(request):
-    if request.method == "POST":
-        form = TransactionForm(request.POST, user=request.user)
-        if form.is_valid():
-            transaction = form.save(commit=False)
-            transaction.user = request.user
-            transaction.save()
-            return redirect(
-                "views_transactions"
-            )  # Change to your transaction list view name
-    else:
-        form = TransactionForm(user=request.user)
-    return render(request, "transactions/add_transaction.html", {"form": form})
+def account_detail(request, account_id):
+    account = get_object_or_404(Account, id=account_id, user=request.user)
+
+    transactions = Transaction.objects.filter(account=account)
+    from_transfers = Transfer.objects.filter(from_account=account)
+    to_transfers = Transfer.objects.filter(to_account=account)
+
+    # Add a date attribute to all items for sorting
+    transactions = list(transactions)
+    for t in transactions:
+        t.date = t.created_at
+
+    from_transfers = list(from_transfers)
+    for ft in from_transfers:
+        ft.date = ft.created_at
+        ft.type = "from_transfer"
+
+    to_transfers = list(to_transfers)
+    for tt in to_transfers:
+        tt.date = tt.created_at
+        tt.type = "to_transfer"
+
+    # Combine and sort by date
+    combined_transactions = list(chain(transactions, from_transfers, to_transfers))
+    combined_transactions.sort(
+        key=lambda x: (
+            x.created_at
+            if isinstance(x.created_at, datetime.datetime)
+            else datetime.datetime.combine(x.created_at, datetime.time.min)
+        ),
+    )
+
+    return render(
+        request,
+        "accounts/account_detail.html",
+        {"account": account, "transactions": combined_transactions},
+    )

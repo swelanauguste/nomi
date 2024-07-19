@@ -9,12 +9,13 @@
 {% block content %}
 <div class="container mt-3 mb-5 col-lg-3">
   <div class="d-grid d-md-block text-end">
-    <a class="btn btn-outline-dark mb-2 mb-lg-0"
-      href="{% url 'add_account' %}">Add New Account</a>
-    <a class="btn btn-outline-dark"
-      href="{% url 'transfer' %}">Transfer</a>
+    <a title="add account"
+      href="{% url 'add_account' %}">
+      <span style="font-size: 32px;" class="text-dark material-symbols-outlined">
+        add_circle
+        </span></a>
   </div>
-  <br><br>
+  <br>
   <p class="display-1 fw-bold text-end">${{total_balance|intcomma}}
   </p>
   <hr>

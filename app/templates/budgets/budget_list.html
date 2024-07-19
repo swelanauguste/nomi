@@ -7,9 +7,12 @@
 {% block content %}
 <div class="container mt-3 mb-5 col-lg-3">
   <div class="d-grid d-md-block text-end">
-    <a class="btn btn-outline-dark"
-      href="{% url 'add_budget' %}">Add New Budget</a>
-  </div><hr>
+    <a title="add budget"
+      href="{% url 'add_budget' %}">
+      <span class="fs-1 text-dark material-symbols-outlined">
+        add_card
+        </span></a>
+  </div><br>
   <ul>
     {% for budget in budgets %}
     <li><span class="fs-3">${{ budget.amount }} (50-30-20 Rule)</span>

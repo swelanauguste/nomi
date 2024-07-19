@@ -98,9 +98,9 @@ class Transaction(models.Model):
 class Rule(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    savings = models.PositiveIntegerField(default=50)
-    needs = models.PositiveIntegerField(default=30)
-    wants = models.PositiveIntegerField(default=20)
+    savings = models.PositiveIntegerField(default=20)
+    needs = models.PositiveIntegerField(default=50)
+    wants = models.PositiveIntegerField(default=30)
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
@@ -135,6 +135,9 @@ class Budget(models.Model):
     # One of the most common types of percentage-based budgets is the 50/30/20 rule. The idea is to divide your income into three categories, spending 50% on needs, 30% on wants, and 20% on savings.
 
     # The 40/40/20 rule comes in during the saving phase of his wealth creation formula. Cardone says that from your gross income, 40% should be set aside for taxes, 40% should be saved, and you should live off of the remaining 20%.
+
+    class Meta:
+        ordering = ["-pk"]
 
     def get_savings(self):
         if self.rule:
