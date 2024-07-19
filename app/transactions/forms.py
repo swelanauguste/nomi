@@ -1,35 +1,43 @@
 from django import forms
 
-from .models import Account, Budget, Category, RecurringTransaction, Transaction
+from .models import (
+    Account,
+    Budget,
+    Category,
+    RecurringTransaction,
+    Rule,
+    Transaction,
+    Transfer,
+)
 
 
-class TransferForm(forms.Form):
-    from_account = forms.ModelChoiceField(queryset=Account.objects.all())
-    to_account = forms.ModelChoiceField(queryset=Account.objects.all())
-    amount = forms.DecimalField(max_digits=10, decimal_places=2)
+class TransferForm(forms.ModelForm):
+    class Meta:
+        model = Transfer
+        fields = ["from_account", "to_account", "amount"]
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user", None)
-        super(TransferForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         if user:
             self.fields["from_account"].queryset = Account.objects.filter(user=user)
             self.fields["to_account"].queryset = Account.objects.filter(user=user)
-
-    def clean(self):
-        cleaned_data = super().clean()
-        from_account = cleaned_data.get("from_account")
-        to_account = cleaned_data.get("to_account")
-        if from_account and to_account and from_account == to_account:
-            raise forms.ValidationError(
-                "From account and to account cannot be the same."
-            )
-        return cleaned_data
 
 
 class BudgetForm(forms.ModelForm):
     class Meta:
         model = Budget
-        fields = ["category", "amount", "month"]
+        fields = ["amount", "rule"]
+        widgets = {
+            "amount": forms.NumberInput(attrs={"step": "0.01"}),
+            "rule": forms.Select(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user", None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields["rule"].queryset = Rule.objects.filter(user=user)
 
 
 class RecurringTransactionForm(forms.ModelForm):
@@ -77,12 +85,18 @@ class TransactionForm(forms.ModelForm):
             "category",
             "amount",
             "description",
-            "transaction_date",
             "transaction_type",
         ]
 
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user", None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields["account"].queryset = Account.objects.filter(user=user)
+            self.fields["category"].queryset = Category.objects.filter(user=user)
+
         widgets = {
-            "transaction_date": forms.DateInput(attrs={"type": "date"}),
+            "date": forms.DateInput(attrs={"type": "date"}),
             "description": forms.Textarea(attrs={"rows": "3"}),
         }
 
@@ -90,4 +104,16 @@ class TransactionForm(forms.ModelForm):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ["name"]
+        fields = [
+            "name",
+        ]
+
+
+class RuleForm(forms.ModelForm):
+    class Meta:
+        model = Rule
+        fields = ["name", "savings", "needs", "wants", "description"]
+        
+        widgets = {
+            "description": forms.Textarea(attrs={"rows": "3"}),
+        }

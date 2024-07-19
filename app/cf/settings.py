@@ -15,7 +15,7 @@ SECRET_KEY = "django-insecure-8ztqe$664u2gl&ep7plg^1_q95mzeevj=jti9%(h^vsur#cu95
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ["https://nomii.loca.lt"]
+CSRF_TRUSTED_ORIGINS = ["https://app1.loca.lt"]
 
 # Application definition
 
@@ -144,17 +144,17 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 
-PWA_APP_NAME = "My App"
-PWA_APP_DESCRIPTION = "My app description"
-PWA_APP_THEME_COLOR = "#0A0302"
-PWA_APP_BACKGROUND_COLOR = "#ffffff"
+PWA_APP_NAME = "Naomi's numbers"
+PWA_APP_DESCRIPTION = "Budget tracking application"
+PWA_APP_THEME_COLOR = "#85DBDA"
+PWA_APP_BACKGROUND_COLOR = "#85DBDA"
 PWA_APP_DISPLAY = "standalone"
 PWA_APP_SCOPE = "/"
 PWA_APP_ORIENTATION = "any"
 PWA_APP_START_URL = "/"
 PWA_APP_STATUS_BAR_COLOR = "default"
-PWA_APP_ICONS = [{"src": "/static/images/my_app_icon.png", "sizes": "160x160"}]
-PWA_APP_ICONS_APPLE = [{"src": "/static/images/my_apple_icon.png", "sizes": "160x160"}]
+PWA_APP_ICONS = [{"src": "/static/img/naomi_numbers.jpg", "sizes": "160x160"}]
+PWA_APP_ICONS_APPLE = [{"src": "/static/img/naomi_numbers.jpg", "sizes": "160x160"}]
 PWA_APP_SPLASH_SCREEN = [
     {
         "src": "/static/images/icons/splash-640x1136.png",

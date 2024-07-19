@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
-{% block content %}
-<h2 class="fs-1 bg-dark text-white text-center px-5 py-3">Login</h2>
-<div class="container mt-3 mb-5 col-lg-3">
 
+{% block header %}
+<h2 class="fs-1">Login</h2>
+{% endblock header %}
+
+{% block content %}
+
+<div class="container mt-3 mb-5 col-lg-3">
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}
@@ -12,5 +16,5 @@
                 type="submit">Login</button>
         </div>
     </form>
-</div><br><br>
+</div><br><br><br>
 {% endblock %}

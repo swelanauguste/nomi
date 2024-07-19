@@ -1,5 +1,5 @@
-
 {% load pwa %}
+{% load static %}
 <!DOCTYPE html>
 <html>
 
@@ -30,9 +30,33 @@
             font-family: "Montserrat", sans-serif;
         }
     </style>
+    <link rel="icon"
+        href="{% static 'img/naomi_numbers.jpg' %}"
+        sizes="any"
+        type="image/x-icon">
+
 </head>
 
 <body>
+    <div class="row bg-dark py-2">
+        <div class="col-1">
+            <a href="/">
+                <img class="rounded-circle me-3"
+                    width="70"
+                    src="{% static 'img/naomi_numbers.jpg' %}"
+                    alt="">
+            </a>
+        </div>
+        <div
+            class="col d-flex justify-content-center align-items-center text-white">
+
+            {% block header %}
+
+            {% endblock header %}
+        </div>
+    </div>
+
+
 
     {% block content %}
     {% endblock %}

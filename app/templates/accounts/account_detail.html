@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load instanceof_filter %}
+{% block header %}
+<h2 class="fs-2">{{ account.name }}</h2>
+{% endblock header %}
+
+{% block content %}
+<div class="container mt-3 mb-5 col-lg-3">
+    <p>Balance: {{ account.balance }}</p>
+    <div class="d-grid d-md-block text-end">
+        <a class="btn btn-outline-dark"
+            href="{% url 'transfer' %}">Transfer</a>
+    </div>
+    <hr>
+    {% for item in transactions %}
+    <p class="d-flex justify-content-between 
+    {% if item.transaction_type == 'income' %}
+        text-success 
+    {% else %}
+        text-danger 
+    {% endif %} px-3">
+        <span>
+            {% if item|isinstanceof:"Transaction" %}
+            {{ item.category.name }}
+        </span>
+        <span>
+            {% if item.transaction_type == 'expense' %} - {% endif %}
+            ${{ item.amount }}
+        </span>
+    </p>
+    {% elif item|isinstanceof:"Transfer" %}
+    <p class="d-flex justify-content-between {% if item.type == 'from_transfer' %}
+            text-danger 
+        {% else %}
+            text-success 
+        {% endif %} px-3">
+        <span>
+            {% if item.type == 'from_transfer' %}
+            {{ item.to_account.name }}
+            {% elif item.type == 'to_transfer' %}
+            {{ item.from_account.name }}
+            {% endif %}
+        </span>
+
+        <span>{% if item.type == 'from_transfer' %} - {% endif %}
+            ${{ item.amount }}</span>
+        {% endif %}
+    </p>
+    <hr>
+    {% endfor %}
+    <hr>
+</div><br><br><br>
+{% endblock %}
