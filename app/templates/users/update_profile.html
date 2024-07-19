@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block header %}
-<h2 class="fs-1">Add Account</h2>
+<h2 class="fs-1">{{request.user.profile}}</h2>
 {% endblock header %}
 
 {% block content %}
@@ -12,8 +12,8 @@
     {{ form|crispy }}
     <div class="d-grid d-md-block text-end">
       <button class="btn btn-outline-dark"
-        type="submit">Add Account</button>
+        type="submit">Save</button>
     </div>
   </form>
-</div><br><br><br><br>
+</div><br><br>
 {% endblock %}

@@ -15,7 +15,8 @@ SECRET_KEY = "django-insecure-8ztqe$664u2gl&ep7plg^1_q95mzeevj=jti9%(h^vsur#cu95
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ["https://app1.loca.lt"]
+
+CSRF_TRUSTED_ORIGINS = ["http://*"]
 
 # Application definition
 
@@ -134,6 +135,13 @@ MEDIA_ROOT = BASE_DIR / "mediafiles"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "users.User"
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by email
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
 
 LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = "/accounts/login/"

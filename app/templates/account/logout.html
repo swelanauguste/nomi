@@ -6,21 +6,22 @@
 {% block content %}
 <div class="container px-5 mt-3 mb-5 col-lg-3">
     <form action="{% url 'account_logout' %}"
-    method="post">
-    {% csrf_token %}
-    <div class="d-flex justify-content-end">
-        <button class="bg-white border-0"
-            type="submit">
-            <span class="fs-1 text-dark material-symbols-outlined">
-                logout
-            </span></button>
-    </div>
-</form>
-<hr>
+        method="post">
+        {% csrf_token %}
+        <div class="d-flex justify-content-end">
+            <button class="bg-white border-0"
+                type="submit">
+                <span class="fs-1 text-dark material-symbols-outlined">
+                    logout
+                </span></button>
+        </div>
+    </form>
+    <hr>
     <!-- {% trans 'Are you sure you want to sign out?' %} -->
     <p class="d-flex"><span class="me-5 fs-4">{{request.user.profile}}</span>
 
-        <a class="text-dark" href="">
+        <a class="text-dark"
+            href="{% url 'profile'%}">
             <span class="material-symbols-outlined">
                 edit
             </span>
@@ -28,6 +29,6 @@
     </p>
 
     <br><br>
- 
+
 </div>
 {% endblock content %}
