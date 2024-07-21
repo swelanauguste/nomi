@@ -99,12 +99,12 @@ class Rule(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     savings = models.PositiveIntegerField(default=20)
-    needs = models.PositiveIntegerField(default=50)
     wants = models.PositiveIntegerField(default=30)
+    needs = models.PositiveIntegerField(default=50)
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.savings}-{self.wants}-{self.needs}"
 
 
 class Budget(models.Model):

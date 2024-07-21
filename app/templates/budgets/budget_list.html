@@ -18,9 +18,9 @@
     <h2><strong> Rule: {{budget.rule}}</strong></h2>
     <li><span class="fs-3">${{ budget.amount }}</span>
       <ul>
-        <li>Savings ${{ budget.get_savings }}</li>
-        <li>Needs ${{ budget.get_needs }}</li>
-        <li>Wants ${{ budget.get_wants }}</li>
+        <li><strong>Savings: </strong> ${{ budget.get_savings }}</li>
+        <li><strong>Wants: </strong> ${{ budget.get_wants }}</li>
+        <li><strong>Needs: </strong> ${{ budget.get_needs }}</li>
       </ul>
     </li>
     <hr>
@@ -28,5 +28,5 @@
     <p class="text-center">No budgets yet.</p>
     {% endfor %}
   </ul>
-</div><br><br>
+</div><br><br><br><br>
 {% endblock %}
