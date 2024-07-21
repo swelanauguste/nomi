@@ -71,6 +71,7 @@ class Transaction(models.Model):
     TRANSACTION_TYPE_CHOICES = [
         ("income", "Income"),
         ("expense", "Expense"),
+        ("savings", "Savings"),
     ]
     transaction_type = models.CharField(max_length=7, choices=TRANSACTION_TYPE_CHOICES)
 
