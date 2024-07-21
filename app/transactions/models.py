@@ -111,7 +111,7 @@ class Budget(models.Model):
     add_rule = '<span class="text-primary" style="cursor: pointer;" onclick="openAddRuleWindow()">add rule</span>'
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rule = models.ForeignKey(
-        Rule, on_delete=models.CASCADE, blank=True, null=True, help_text=add_rule
+        Rule, on_delete=models.CASCADE, null=True, help_text=add_rule
     )
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     # MONTH_CHOICES = [

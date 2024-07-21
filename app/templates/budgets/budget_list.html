@@ -15,7 +15,8 @@
   </div><br>
   <ul>
     {% for budget in budgets %}
-    <li><span class="fs-3">${{ budget.amount }} (50-30-20 Rule)</span>
+    <h2><strong> Rule: {{budget.rule}}</strong></h2>
+    <li><span class="fs-3">${{ budget.amount }}</span>
       <ul>
         <li>Savings ${{ budget.get_savings }}</li>
         <li>Needs ${{ budget.get_needs }}</li>
@@ -23,6 +24,8 @@
       </ul>
     </li>
     <hr>
+    {% empty %}
+    <p class="text-center">No budgets yet.</p>
     {% endfor %}
   </ul>
 </div><br><br>

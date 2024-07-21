@@ -33,12 +33,17 @@
             class="fs-1 material-symbols-outlined">
             person
         </span></a>
-    
+
     {% if request.user.is_superuser %}
     <a class="text-white mx-1"
         href="{% url 'create_user' %}"><span
             class="fs-1 material-symbols-outlined">
             person_add
+        </span></a>
+    <a class="text-white mx-1"
+        href="/admin"><span
+            class="fs-1 material-symbols-outlined">
+            admin_panel_settings
         </span></a>
     {% endif %}
 
