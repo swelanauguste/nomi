@@ -14,7 +14,11 @@ from .models import (
 class TransferForm(forms.ModelForm):
     class Meta:
         model = Transfer
-        fields = ["from_account", "to_account", "amount"]
+        fields = ["from_account", "to_account", "amount", "date"]
+        
+        widgets = {
+            "date": forms.DateInput(attrs={"type": "date"}),
+        }
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user", None)
@@ -84,11 +88,13 @@ class TransactionForm(forms.ModelForm):
             "account",
             "category",
             "amount",
+            "date",
             "description",
             "transaction_type",
         ]
 
         widgets = {
+            "date": forms.DateInput(attrs={"type": "date"}),
             "description": forms.Textarea(attrs={"rows": "3"}),
         }
 
