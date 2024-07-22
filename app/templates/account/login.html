@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block header %}
@@ -6,15 +7,28 @@
 {% endblock header %}
 
 {% block content %}
+<div class="container">
+    <div class="border border-dark border-2 p-3 rounded-4">
 
-<div class="container mt-3 mb-5 col-lg-3">
-    <form method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <div class="d-grid d-md-block text-end">
-            <button class="btn btn-dark"
-                type="submit">Login</button>
+        <div class="text-center">
+            <img class="rounded-circle mx-3 shadow-lg"
+                width="100"
+                src="{% static 'img/naomi_numbers.jpg' %}"
+                alt="">
         </div>
-    </form>
-</div><br><br><br>
+        <br>
+        <div class="container col-lg-3">
+            <h2 class="display-4 fw-bold text-center">Login</h2>
+            <br>
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="d-grid d-md-block text-end">
+                    <button class="btn btn-lg btn-dark"
+                        type="submit">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

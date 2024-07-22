@@ -24,6 +24,7 @@ class Transfer(models.Model):
         Account, related_name="transfer_to", on_delete=models.CASCADE
     )
     amount = models.DecimalField(max_digits=10, decimal_places=2)
+    date = models.DateField(default=timezone.now)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
@@ -65,13 +66,14 @@ class Transaction(models.Model):
         help_text='<span class="text-primary" style="cursor: pointer;" onclick="openAddCategoryWindow()">add category</span>',
     )
     amount = models.DecimalField(max_digits=10, decimal_places=2)
+    date = models.DateField(default=timezone.now)
     description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     TRANSACTION_TYPE_CHOICES = [
         ("income", "Income"),
         ("expense", "Expense"),
-        ("savings", "Savings"),
+        # ("savings", "Savings"),
     ]
     transaction_type = models.CharField(max_length=7, choices=TRANSACTION_TYPE_CHOICES)
 
@@ -98,10 +100,10 @@ class Transaction(models.Model):
 
 class Rule(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    savings = models.PositiveIntegerField(default=20)
-    wants = models.PositiveIntegerField(default=30)
-    needs = models.PositiveIntegerField(default=50)
+    # name = models.CharField(max_length=100)
+    savings = models.PositiveIntegerField(default=30, help_text="%")
+    wants = models.PositiveIntegerField(default=30, help_text="%")
+    needs = models.PositiveIntegerField(default=30, help_text="%")
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):

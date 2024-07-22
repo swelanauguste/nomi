@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
-{% block header %}
-<h2 class="fs-1">Add Account</h2>
-{% endblock header %}
-
 {% block content %}
+<br><br><br><br>
 <div class="container my-3 col-lg-3">
+  <h2 class="fs-1 text-center">Add Account</h2>
+  <hr>
   <form method="post">
     {% csrf_token %}
     {{ form|crispy }}

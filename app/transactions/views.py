@@ -208,7 +208,7 @@ def accounts(request):
     total_balance = round(total_balance, 2)
     return render(
         request,
-        "transactions/accounts.html",
+        "accounts/account_list.html",
         {"accounts": accounts, "total_balance": total_balance},
     )
 
@@ -230,10 +230,11 @@ def add_account(request):
 @login_required
 def account_detail(request, account_id):
     account = get_object_or_404(Account, id=account_id, user=request.user)
+    current_date = timezone.now()
 
-    transactions = Transaction.objects.filter(account=account)
-    from_transfers = Transfer.objects.filter(from_account=account)
-    to_transfers = Transfer.objects.filter(to_account=account)
+    transactions = Transaction.objects.filter(account=account, created_at__year=current_date.year, created_at__month=current_date.month)
+    from_transfers = Transfer.objects.filter(from_account=account, created_at__year=current_date.year, created_at__month=current_date.month)
+    to_transfers = Transfer.objects.filter(to_account=account, created_at__year=current_date.year, created_at__month=current_date.month)
 
     # Add a date attribute to all items for sorting
     transactions = list(transactions)

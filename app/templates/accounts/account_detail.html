@@ -6,51 +6,67 @@
 
 {% block content %}
 <div class="container mt-3 mb-5 col-lg-3">
-    <p class="text-end fs-1">${{ account.balance }}</p>
+    <p class="text-center fs-1"><strong>{{ account.name }}
+            ${{ account.balance}}</strong> </p>
     <div class="d-flex justify-content-end">
-        <a class="" title="transfer"
-            href="{% url 'transfer' %}"><span class="fs-1 text-dark material-symbols-outlined me-3">
+        <a class=""
+            title="transfer"
+            href="{% url 'transfer' %}"><span
+                class="nav-btn text-dark material-symbols-outlined me-3">
                 move_down
-                </span></a>
-        <a class="" title="add transaction"
-            href="{% url 'add_transaction' %}"><span class="fs-1 text-dark material-symbols-outlined">
+            </span></a>
+        <a class=""
+            title="add transaction"
+            href="{% url 'add_transaction' %}"><span
+                class="nav-btn text-dark material-symbols-outlined">
                 docs_add_on
-                </span></a>
+            </span></a>
     </div>
-    <hr>
-
     {% if transactions %}
     {% for item in transactions %}
-    <p class="d-flex justify-content-between px-3">
-        <span>
-            {% if item|isinstanceof:"Transaction" %}
-            {{ item.category.name }}
-        </span>
-        <span>
-            {% if item.transaction_type == 'expense' %} - {% endif %}
-            ${{ item.amount }}
-        </span>
-    </p>
-    {% elif item|isinstanceof:"Transfer" %}
-    <p class="d-flex justify-content-between px-3">
-        <span>
-            {% if item.type == 'from_transfer' %}
-            {{ item.to_account.name }}
-            {% elif item.type == 'to_transfer' %}
-            {{ item.from_account.name }}
-            {% endif %}
-        </span>
+    <div class="border border-dark border-2 p-2 rounded-4 mb-1">
+        <p class="d-flex justify-content-between px-3 m-0">
+            <span>
+                {% if item|isinstanceof:"Transaction" %}
+                {{ item.category.name }}
+            </span>
+            <span>
+                {% if item.transaction_type == 'expense' %} - {% endif %}
+                ${{ item.amount }}
+            </span>
+        </p>
+        <p class="d-flex justify-content-between px-3 m-0">
+            <span>
+                {{item.description}}
+            </span>
+            <span class="text-muted small"
+                style="font-size: small;">
+                {{item.date|date:"D d M Y"}}
+            </span>
+        </p>
+        {% elif item|isinstanceof:"Transfer" %}
+        <p class="d-flex justify-content-between px-3 align-items-center m-0">
+            <span>
+                {% if item.type == 'from_transfer' %}
+                <span> {{ item.to_account.name }}</span>
+                {% elif item.type == 'to_transfer' %}
 
-        <span>{% if item.type == 'from_transfer' %} - {% endif %}
-            ${{ item.amount }}</span>
+                <span> {{ item.from_account.name }}</span>
+                {% endif %}
+            </span>
+
+            <span>{% if item.type == 'from_transfer' %} - {% endif %}
+                ${{ item.amount }}</span>
+        </p>
+        <p class="d-flex justify-content-end px-3 small m-0">
+            <span class="small text-muted">{{item.date|date:"D d M Y"}}</span>
+        </p>
         {% endif %}
-    </p>
-    <hr>
+
+    </div>
     {% endfor %}
-    <hr>
     {% else %}
     <p class="text-center">No transactions yet</p>
     {% endif %}
-
 </div><br><br><br>
 {% endblock %}

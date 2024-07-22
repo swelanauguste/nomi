@@ -6,27 +6,23 @@
 
 {% block content %}
 <div class="container mt-3 mb-5 col-lg-3">
-  <div class="d-grid d-md-block text-end">
+  <div class="text-end">
     <a title="add budget"
       href="{% url 'add_budget' %}">
-      <span class="fs-1 text-dark material-symbols-outlined">
+      <span class="nav-btn me-3 text-dark material-symbols-outlined">
         add_card
-        </span></a>
+      </span></a>
   </div><br>
-  <ul>
-    {% for budget in budgets %}
+  {% for budget in budgets %}
+  <div class="shadow border p-3 rounded-4 mb-3">
     <h2><strong> Rule: {{budget.rule}}</strong></h2>
-    <li><span class="fs-3">${{ budget.amount }}</span>
-      <ul>
-        <li><strong>Savings: </strong> ${{ budget.get_savings }}</li>
-        <li><strong>Wants: </strong> ${{ budget.get_wants }}</li>
-        <li><strong>Needs: </strong> ${{ budget.get_needs }}</li>
-      </ul>
-    </li>
-    <hr>
-    {% empty %}
-    <p class="text-center">No budgets yet.</p>
-    {% endfor %}
-  </ul>
+    <span class="fs-3"><strong>Amount: </strong>${{ budget.amount }}</span><br>
+    <span><strong>Savings: </strong> ${{ budget.get_savings }}</span><br>
+    <span><strong>Wants: </strong> ${{ budget.get_wants }}</span><br>
+    <span><strong>Needs: </strong> ${{ budget.get_needs }}</span>
+  </div>
+  {% empty %}
+  <p class="text-center">No budgets yet.</p>
+  {% endfor %}
 </div><br><br><br><br>
 {% endblock %}

@@ -111,7 +111,7 @@ class CategoryForm(forms.ModelForm):
 class RuleForm(forms.ModelForm):
     class Meta:
         model = Rule
-        fields = ["name", "savings", "needs", "wants", "description"]
+        fields = ["savings", "needs", "wants", "description"]
 
         widgets = {
             "description": forms.Textarea(attrs={"rows": "3"}),
