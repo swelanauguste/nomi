@@ -17,15 +17,15 @@
       </span></a>
   </div>
   <div class="border border-2 border-dark rounded-4 p-3">
-    <p class="fs-2 fw-bold text-end">{% now "F Y" %}</p>
-    <p class="display-1 fw-bold text-end">${{total_balance|intcomma}}
+    <p class="fw-bold text-end">{% now "F Y" %}</p>
+    <p class="fs-5 fw-bold text-end">${{total_balance|intcomma}}
     </p>
     {% for account in accounts %}
     <a class="text-decoration-none text-dark"
       href="{% url 'account_detail' account.id %}">
       <div
         class="border rounded-4 p-3 mb-2 {% if forloop.first %} text-bg-white border-dark border-2 {% else %} text-bg-dark {% endif %}">
-        <p class="fs-2">
+        <p class="">
           <span> {{ account.name }}</span> <span class="float-end">
             ${{ account.balance|intcomma }}</span>
         </p>
