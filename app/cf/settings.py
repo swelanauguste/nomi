@@ -16,7 +16,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-CSRF_TRUSTED_ORIGINS = ["https://*"]
+CSRF_TRUSTED_ORIGINS = ["https://nomi.kingship.info"]
 
 # Application definition
 
@@ -191,4 +191,4 @@ PWA_APP_SCREENSHOTS = [
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = "emails"
 
-SITE_URL = 'nomi.kingship.info'
+SITE_URL = 'https://nomi.kingship.info'
