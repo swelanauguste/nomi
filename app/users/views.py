@@ -1,10 +1,37 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import redirect, render
+from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import ProfileUpdateForm, CustomUserCreationForm
-from .models import Profile
+from .forms import CustomUserCreationForm, ProfileUpdateForm, UniqueRegistrationForm
+from .models import Profile, RegistrationInvitation
+
+
+def unique_registration(request, key):
+    # invitation = get_object_or_404(RegistrationInvitation, key=key, used=False)
+
+    try:
+        invitation = RegistrationInvitation.objects.get(key=key, used=False)
+        if request.method == "POST":
+            form = UniqueRegistrationForm(request.POST)
+            if form.is_valid():
+                user = form.save()
+                invitation.used = True
+                invitation.save()
+                # login(request, user)
+                return redirect("accounts")
+        else:
+            form = UniqueRegistrationForm()
+        return render(
+            request,
+            "users/unique_registration.html",
+            {"invitation": invitation, "form": form},
+        )
+    except RegistrationInvitation.DoesNotExist:
+        return render(request, "users/invalid_key.html",)
 
 
 @login_required

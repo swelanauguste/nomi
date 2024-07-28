@@ -16,7 +16,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-CSRF_TRUSTED_ORIGINS = ["http://*"]
+CSRF_TRUSTED_ORIGINS = ["https://*"]
 
 # Application definition
 
@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     "transactions",
+    # "subscriptions",
     "users",
     "crispy_forms",
     "crispy_bootstrap5",
@@ -46,6 +47,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
+    # "subscriptions.middleware.SubscriptionMiddleware",
 ]
 
 ROOT_URLCONF = "cf.urls"
@@ -185,3 +187,8 @@ PWA_APP_SCREENSHOTS = [
         "type": "image/png",
     }
 ]
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = "emails"
+
+SITE_URL = 'nomi.kingship.info'

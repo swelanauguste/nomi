@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -5,6 +7,16 @@ from django.db import models
 class User(AbstractUser):
     # Add any additional fields if needed
     pass
+
+
+class RegistrationInvitation(models.Model):
+    email = models.EmailField(unique=True)
+    key = models.UUIDField(default=uuid.uuid4, unique=True)
+    sent_at = models.DateTimeField(auto_now_add=True)
+    used = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.email
 
 
 class Profile(models.Model):
