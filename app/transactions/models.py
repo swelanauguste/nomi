@@ -95,7 +95,7 @@ class Transaction(models.Model):
         super(Transaction, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.transaction_date} - {self.transaction_type} - {self.amount}"
+        return f"{self.date} - {self.transaction_type} - {self.amount}"
 
 
 class Rule(models.Model):
