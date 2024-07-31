@@ -22,29 +22,31 @@
     </div>
     <p class="fs-5 text-end"><strong>{{ account.name }}
             ${{ account.balance}}</strong> </p>
-  
+
     {% if transactions %}
     {% for item in transactions %}
     <div class="border border-dark border-2 p-2 rounded-4 mb-1">
-        <p class="d-flex justify-content-between px-3 m-0">
-            <span>
-                {% if item|isinstanceof:"Transaction" %}
-                {{ item.category.name }}
-            </span>
-            <span>
-                {% if item.transaction_type == 'expense' %} - {% endif %}
-                ${{ item.amount }}
-            </span>
-        </p>
-        <p class="d-flex justify-content-between px-3 m-0">
-            <span>
-                {{item.description}}
-            </span>
-            <span class="text-muted small"
-                style="font-size: small;">
-                {{item.date|date:"D d M Y"}}
-            </span>
-        </p>
+        <a class="text-dark text-decoration-none" href="{% url 'update_transaction' item.pk %}">
+            <p class="d-flex justify-content-between px-3 m-0">
+                <span>
+                    {% if item|isinstanceof:"Transaction" %}
+                    {{ item.category.name }}
+                </span>
+                <span>
+                    {% if item.transaction_type == 'expense' %} - {% endif %}
+                    ${{ item.amount }}
+                </span>
+            </p>
+            <p class="d-flex justify-content-between px-3 m-0">
+                <span>
+                    {{item.description}}
+                </span>
+                <span class="text-muted small"
+                    style="font-size: small;">
+                    {{item.date|date:"D d M Y"}}
+                </span>
+            </p>
+        </a>
         {% elif item|isinstanceof:"Transfer" %}
         <p class="d-flex justify-content-between px-3 align-items-center m-0">
             <span>

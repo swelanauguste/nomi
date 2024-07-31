@@ -74,6 +74,28 @@ def add_category(request):
         form = CategoryForm()
     return render(request, "transactions/add_category.html", {"form": form})
 
+
+@db_transaction.atomic
+@login_required
+def update_transaction(request, transaction_id):
+    transaction = get_object_or_404(Transaction, id=transaction_id, user=request.user)
+
+    if request.method == "POST":
+        form = TransactionForm(request.POST, instance=transaction, user=request.user)
+        if form.is_valid():
+            with db_transaction.atomic():
+                updated_transaction = form.save(commit=False)
+                updated_transaction.user = request.user
+                updated_transaction.save()
+                return redirect(
+                    "account_detail", account_id=updated_transaction.account.id
+                )
+    else:
+        form = TransactionForm(instance=transaction, user=request.user)
+
+    return render(request, "transactions/update_transaction.html", {"form": form})
+
+
 @login_required
 def add_transfer(request):
     if request.method == "POST":
@@ -147,6 +169,7 @@ def add_recurring_transaction(request):
     return render(
         request, "transactions/add_recurring_transaction.html", {"form": form}
     )
+
 
 @db_transaction.atomic
 @login_required
@@ -232,9 +255,21 @@ def account_detail(request, account_id):
     account = get_object_or_404(Account, id=account_id, user=request.user)
     current_date = timezone.now()
 
-    transactions = Transaction.objects.filter(account=account, created_at__year=current_date.year, created_at__month=current_date.month)
-    from_transfers = Transfer.objects.filter(from_account=account, created_at__year=current_date.year, created_at__month=current_date.month)
-    to_transfers = Transfer.objects.filter(to_account=account, created_at__year=current_date.year, created_at__month=current_date.month)
+    transactions = Transaction.objects.filter(
+        account=account,
+        created_at__year=current_date.year,
+        created_at__month=current_date.month,
+    )
+    from_transfers = Transfer.objects.filter(
+        from_account=account,
+        created_at__year=current_date.year,
+        created_at__month=current_date.month,
+    )
+    to_transfers = Transfer.objects.filter(
+        to_account=account,
+        created_at__year=current_date.year,
+        created_at__month=current_date.month,
+    )
 
     # Add a date attribute to all items for sorting
     transactions = list(transactions)
